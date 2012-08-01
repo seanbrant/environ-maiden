@@ -4,10 +4,10 @@ import unittest
 
 from mock import patch
 
-from environm import Env
+from environ_maiden import Env
 
 
-class EnvironmentTestCase(unittest.TestCase):
+class EnvTestCase(unittest.TestCase):
 
     def setUp(self):
         self.environ_patcher = patch('environm.os.environ', dict())
@@ -18,10 +18,18 @@ class EnvironmentTestCase(unittest.TestCase):
 
     def test_items_come_from_environ(self):
         self.environ['KEY'] = 'value'
-        self.assertEqual(Env(), {'KEY': 'value'})
+        self.assertEqual(Env().environ, {'KEY': 'value'})
 
     def test_repr(self):
         self.assertEqual(repr(Env()), '<Env: {}>')
+
+    def test_get_ignores_prefix(self):
+        self.environ['KEY'] = 'value'
+        self.assertEqual(Env().get('KEY'), 'value')
+
+    def test_get_adds_prefix(self):
+        self.environ['PREFIX_KEY'] = 'value'
+        self.assertEqual(Env(prefix='PREFIX').get('KEY'), 'value')
 
     def test_bool_true(self):
         for value in [1, '1', 'true', 't', 'True', 'TRUE']:

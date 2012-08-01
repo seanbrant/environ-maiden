@@ -3,14 +3,20 @@ import os
 __version__ = '0.1.1'
 
 
-class Env(dict):
+class Env(object):
 
-    def __init__(self):
-        super(Env, self).__init__(os.environ)
+    def __init__(self, prefix=None):
+        self.prefix = prefix
+        self.environ = os.environ
 
     def __repr__(self):
-        rep = super(Env, self).__repr__()
-        return '<{0}: {1}>'.format(self.__class__.__name__, rep)
+        return '<{0}: {1}>'.format(self.__class__.__name__, self.environ)
+
+    def get(self, key, default=None):
+        if self.prefix is not None:
+            key = '{0}_{1}'.format(self.prefix, key)
+
+        return self.environ.get(key, default)
 
     def bool(self, key, default=None):
         """
