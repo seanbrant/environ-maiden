@@ -52,10 +52,10 @@ class Environment(object):
         """
         return int(self.get(key, default))
 
-    def list(self, key, default=None, corce=lambda x: x):
+    def list(self, key, default=None, modifier=lambda x: x):
         """
         Returns the found value converted to a list. You can
-        also pass a corce callable to change the datatype.
+        also pass a modifier callable to change the items.
 
         """
         value = self.get(key, default)
@@ -63,4 +63,4 @@ class Environment(object):
         if isinstance(value, (list, tuple)):
             return value
 
-        return [corce(i.strip()) for i in value.split(',')]
+        return [modifier(i.strip()) for i in value.split(',')]
