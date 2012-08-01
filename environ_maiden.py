@@ -3,7 +3,7 @@ import os
 __version__ = '0.1.1'
 
 
-class Env(object):
+class Environment(object):
 
     def __init__(self, prefix=None):
         self.prefix = prefix
