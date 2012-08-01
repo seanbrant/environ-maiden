@@ -67,4 +67,4 @@ class EnvironmentTestCase(unittest.TestCase):
 
     def test_list_with_corce(self):
         self.environ['KEY'] = '1,2'
-        self.assertEqual(Environment().list('KEY', corce=int), [1, 2])
+        self.assertEqual(Environment().list('KEY', modifier=int), [1, 2])
